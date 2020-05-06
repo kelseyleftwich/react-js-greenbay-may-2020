@@ -1,5 +1,7 @@
 import React from 'react';
 
+const STROKE = 1;
+
 export default ({ data, width, height, precision }) => {
   const FONT_SIZE = width / 50;
   const maximumXFromData = Math.max(...data.map((e) => e.x));
@@ -28,10 +30,26 @@ export default ({ data, width, height, precision }) => {
     <Axis points={`${padding},${padding} ${padding},${height - padding}`} />
   );
 
+  const points = data
+    .map((element) => {
+      const x = (element.x / maximumXFromData) * chartWidth + padding;
+      const y =
+        chartHeight - (element.y / maximumYFromData) * chartHeight + padding;
+      return `${x},${y}`;
+    })
+    .join(' ');
+
   return (
     <svg viewBox={`0 0 ${width} ${height}`}>
       <XAxis />
       <YAxis />
+
+      <polyline
+        fill="none"
+        stroke="#0074d9"
+        strokeWidth={STROKE}
+        points={points}
+      />
     </svg>
   );
 };
