@@ -1,5 +1,6 @@
 import React from 'react';
 import LineChart from './components/LineChart';
+import ChartTitle from './components/ChartTitle';
 
 const data = [
   { label: 'S', x: 0, y: 0 },
@@ -25,6 +26,8 @@ function App() {
     <div style={styles.chartComponentsContainer}>
       <div />
       <div style={styles.chartWrapper}>
+        <ChartTitle text="Movements per Day of the Week" />
+
         <LineChart
           width={500}
           height={300}
