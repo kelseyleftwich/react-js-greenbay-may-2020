@@ -115,12 +115,38 @@ export default ({
     });
   };
 
+  const LabelsYAxis = () => {
+    const PARTS = numberOfHorizontalGuides;
+    return new Array(PARTS + 1).fill(0).map((_, index) => {
+      const x = FONT_SIZE;
+      const ratio = index / numberOfHorizontalGuides;
+
+      const yCoordinate =
+        chartHeight - chartHeight * ratio + padding + FONT_SIZE / 2;
+      return (
+        <text
+          key={index}
+          x={x}
+          y={yCoordinate}
+          style={{
+            fill: '#808080',
+            fontSize: FONT_SIZE,
+            fontFamily: 'Helvetica',
+          }}
+        >
+          {parseFloat(maximumYFromData * (index / PARTS)).toFixed(precision)}
+        </text>
+      );
+    });
+  };
+
   return (
     <svg viewBox={`0 0 ${width} ${height}`}>
       <XAxis />
       <LabelsXAxis />
 
       <YAxis />
+      <LabelsYAxis />
 
       {numberOfVerticalGuides && <VerticalGuides />}
       <HorizontalGuides />
