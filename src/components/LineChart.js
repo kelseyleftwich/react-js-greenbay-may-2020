@@ -8,6 +8,7 @@ export default ({
   height,
   precision,
   horizontalGuides: numberOfHorizontalGuides,
+  verticalGuides: numberOfVerticalGuides,
 }) => {
   const FONT_SIZE = width / 50;
   const maximumXFromData = Math.max(...data.map((e) => e.x));
@@ -67,11 +68,36 @@ export default ({
     });
   };
 
+  const VerticalGuides = () => {
+    const guideCount = numberOfVerticalGuides || data.length - 1;
+
+    const startY = padding;
+    const endY = height - padding;
+
+    return new Array(guideCount).fill(0).map((_, index) => {
+      const ratio = (index + 1) / guideCount;
+
+      const xCoordinate = padding + ratio * (width - padding * 2);
+
+      return (
+        <React.Fragment key={index}>
+          <polyline
+            fill="none"
+            stroke="#ccc"
+            strokeWidth=".5"
+            points={`${xCoordinate},${startY} ${xCoordinate},${endY}`}
+          />
+        </React.Fragment>
+      );
+    });
+  };
+
   return (
     <svg viewBox={`0 0 ${width} ${height}`}>
       <XAxis />
       <YAxis />
 
+      {numberOfVerticalGuides && <VerticalGuides />}
       <HorizontalGuides />
 
       <polyline
