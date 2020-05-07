@@ -2,7 +2,13 @@ import React from 'react';
 
 const STROKE = 1;
 
-export default ({ data, width, height, precision }) => {
+export default ({
+  data,
+  width,
+  height,
+  precision,
+  horizontalGuides: numberOfHorizontalGuides,
+}) => {
   const FONT_SIZE = width / 50;
   const maximumXFromData = Math.max(...data.map((e) => e.x));
   const maximumYFromData = Math.max(...data.map((e) => e.y));
@@ -39,10 +45,34 @@ export default ({ data, width, height, precision }) => {
     })
     .join(' ');
 
+  const HorizontalGuides = () => {
+    const startX = padding;
+    const endX = width - padding;
+
+    return new Array(numberOfHorizontalGuides).fill(0).map((_, index) => {
+      const ratio = (index + 1) / numberOfHorizontalGuides;
+
+      const yCoordinate = chartHeight - chartHeight * ratio + padding;
+
+      return (
+        <React.Fragment key={index}>
+          <polyline
+            fill="none"
+            stroke={'#ccc'}
+            strokeWidth=".5"
+            points={`${startX},${yCoordinate} ${endX},${yCoordinate}`}
+          />
+        </React.Fragment>
+      );
+    });
+  };
+
   return (
     <svg viewBox={`0 0 ${width} ${height}`}>
       <XAxis />
       <YAxis />
+
+      <HorizontalGuides />
 
       <polyline
         fill="none"
