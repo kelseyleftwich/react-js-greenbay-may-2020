@@ -19,6 +19,7 @@ const styles = {
     display: 'grid',
     gridTemplateColumns: 'max-content 700px',
     alignItems: 'center',
+    marginBottom: 48,
   },
   chartWrapper: { maxWidth: 700, alignSelf: 'flex-start' },
 };
@@ -67,6 +68,7 @@ function App() {
         <div />
         <Label text="Days of the Week" />
       </div>
+      <hr />
       <Chart data={data} target={target} />
 
       <input

@@ -5,9 +5,7 @@ const style = {
   fontFamily: 'sans-serif',
 };
 
-const CustomDot = (props) => {
-  const { cx, cy, stroke, payload, value, target } = props;
-
+const CustomDot = ({ cx, cy, stroke, payload, value, target }) => {
   if (payload.x !== target) {
     return null;
   }
@@ -15,9 +13,9 @@ const CustomDot = (props) => {
   const height = 50;
   const width = 125;
 
-  const yOffset = 60;
+  const yOffset = 60; // how far away from line
 
-  const invert = cy - height - yOffset < 0;
+  const invert = cy - height - yOffset < 0; // invert if there isn't enough space above line
 
   const rectY = invert ? cy + yOffset : cy - (height + yOffset);
   const lineY = invert ? cy + yOffset : cy - (height + yOffset);
