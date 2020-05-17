@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LineChart from './components/LineChart';
 import ChartTitle from './components/ChartTitle';
 import Label from './components/AxisLabel';
+import Chart from './components/recharts/chart';
 
 const data = [
   { label: 'S', x: 0, y: 0 },
@@ -23,25 +24,58 @@ const styles = {
 };
 
 function App() {
-  return (
-    <div style={styles.chartComponentsContainer}>
-      <div />
-      <ChartTitle text="Movements per Day of the Week" />
-      <Label text="Movements" rotate />
+  const [target, setTarget] = useState(3);
 
-      <div style={styles.chartWrapper}>
-        <LineChart
-          width={500}
-          height={300}
-          data={data}
-          horizontalGuides={5}
-          precision={2}
-          verticalGuides={data.length - 1}
-        />
+  const handleInputChange = ({ target: { value } }) => {
+    const parsedValue = parseInt(value, 10);
+
+    console.log(data.map(({ x }) => x));
+
+    if (Number.isNaN(parsedValue)) {
+      return;
+    }
+
+    const min = Math.min(...data.map(({ x }) => x));
+    const max = Math.max(...data.map(({ x }) => x));
+
+    console.log(min, max);
+
+    if (parsedValue < min || parsedValue > max) {
+      return;
+    }
+
+    setTarget(parsedValue);
+  };
+
+  return (
+    <>
+      <div style={styles.chartComponentsContainer}>
+        <div />
+        <ChartTitle text="Movements per Day of the Week" />
+        <Label text="Movements" rotate />
+
+        <div style={styles.chartWrapper}>
+          <LineChart
+            width={500}
+            height={300}
+            data={data}
+            horizontalGuides={5}
+            precision={2}
+            verticalGuides={data.length - 1}
+          />
+        </div>
+        <div />
+        <Label text="Days of the Week" />
       </div>
-      <div />
-      <Label text="Days of the Week" />
-    </div>
+      <Chart data={data} target={target} />
+
+      <input
+        type="number"
+        value={target}
+        onChange={handleInputChange}
+        placeholder="target"
+      />
+    </>
   );
 }
 
